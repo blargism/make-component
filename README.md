@@ -56,13 +56,14 @@ This utterly useless component will tell you we are doing stuff, then change its
 
 ## API
 
-The following get exported by this module, ES6 style.
+The following method and class get exported by this module, ES6 style.
 
 ### `makeit`
 
 This function creates a new web component based on the tag name and provided HTMLElement class. It requires these two properties.
 
 `tag_name` - The name of the tag in proper web component format (AKA tag-name).
+
 `component_class` - A class extending HTMLElement, such as the `Base` class provided by this module.
 
 ### `Base`
