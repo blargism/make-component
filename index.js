@@ -31,6 +31,11 @@ export const makewc = (tag_name, component_class) => {
  * It should also be noted that subsequent renders are your responsibility.
  */
 export class Base extends HTMLElement {
+    constructor() {
+        super();
+        this._render_with_shadow = false;
+    }
+
     connectedCallback() {
         this.pre()
             .then(() => {
@@ -39,6 +44,11 @@ export class Base extends HTMLElement {
             })
             .then(() => this.init())
             .catch((e) => this.setupError(e));
+    }
+
+    attachShadow(init) {
+        super.attachShadow(init);
+        this._render_with_shadow = true;
     }
 
     /**
@@ -96,6 +106,10 @@ export class Base extends HTMLElement {
      * connectedCallback.
      */
     render() {
-        if (this.template) render(this.template(this), this);
+        if(this._render_with_shadow) {
+            if (this.template) render(this.template(this), this.shadowRoot);
+        } else {
+            if (this.template) render(this.template(this), this);
+        }
     }
 }
