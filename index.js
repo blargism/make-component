@@ -31,14 +31,9 @@ export const makewc = (tag_name, component_class) => {
  * It should also be noted that subsequent renders are your responsibility.
  */
 export class Base extends HTMLElement {
-    constructor() {
-        super();
-        this.___CAN_RENDER___ = false;
-    }
     connectedCallback() {
         this.pre()
             .then(() => {
-                this.___CAN_RENDER___ = true;
                 this.render();
                 return Promise.resolve();
             })
@@ -101,6 +96,6 @@ export class Base extends HTMLElement {
      * connectedCallback.
      */
     render() {
-        if (this.template && this.___CAN_RENDER___) render(this.template(this), this);
+        if (this.template) render(this.template(this), this);
     }
 }
