@@ -57,9 +57,10 @@ export class Base extends HTMLElement {
      * }
      * ```
      *
+     * @param object component
      * @returns {TemplateResult}
      */
-    template() {
+    template(component) {
         console.warn("There is not template defined.")
         return html``;
     }
