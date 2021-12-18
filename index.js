@@ -60,7 +60,7 @@ export class Base extends HTMLElement {
      * @param object component
      */
     template(component) {
-        console.warn("There is not template defined.")
+        console.warn("There is not template defined.");
         return html``;
     }
 
@@ -114,7 +114,74 @@ export class Base extends HTMLElement {
         evt.stopPropagation();
         evt.stopImmediatePropagation();
         if (preventDefault) {
-            evt.preventDefault()
+            evt.preventDefault();
         }
+    }
+}
+
+/**
+ * FormBase provides a means to update an object with form controls
+ *
+ * There is a bit of magic here, but it's pretty simple so it's probably ok. This
+ * magic revolves around a change handler that looks for the "name" property and
+ * the "value" property. There is also a consideration for checkboxes. It should
+ * support text inputs, textboxes, selects, checkboxes, and radio buttons. Beyond
+ * that it may not work super well.
+ *
+ * The "data" property is expected to be an object and the properties are updated
+ * on that object based on the "name" of the form control and either the "value" or
+ * "checked" property depending on the control type.
+ *
+ * Properties interest:
+ * @param {object} data The data object to be updated on form changes, the setter triggers a render.
+ */
+export class FormBase extends Base {
+    constructor() {
+        super();
+        this._data = {};
+        const handler = (evt) => {
+            // ignore
+            if (evt.target === this || !evt.target.name) {
+                return;
+            }
+
+            if (evt.target.type === "checkbox") {
+                this.data[evt.target.name] = evt.target.hasAttribute("checked");
+            }
+
+            this.data[evt.target.name] = evt.target.value;
+            this.handleChange(evt);
+        };
+
+        this.addEventListener("change", handler);
+        this.addEventListener("input", handler);
+    }
+
+    get data() {
+        return this._data;
+    }
+
+    /**
+     * Sets the data property.
+     *
+     * If the value is not an object, the set is silently ignored.
+     */
+    set data(value) {
+        if (typeof value != "object") {
+            return;
+        }
+        this._data = value;
+        this.render();
+    }
+
+    /**
+     * handleChange should be overwritten by the implementing class
+     *
+     * It is intended to allow the implementing class to do what it wants
+     * with the event.
+     * @param {Event} evt
+     */
+    handleChange(evt) {
+        console.log("handleChange not implemented");
     }
 }
