@@ -132,6 +132,8 @@ export class Base extends HTMLElement {
  * on that object based on the "name" of the form control and either the "value" or
  * "checked" property depending on the control type.
  *
+ * There is a 10ms debounce to prevent duplicate triggers of "handleChange".
+ *
  * Properties interest:
  * @param {object} data The data object to be updated on form changes, the setter triggers a render.
  */
@@ -139,6 +141,8 @@ export class FormBase extends Base {
     constructor() {
         super();
         this._data = {};
+        let debounceTimeout;
+
         const handler = (evt) => {
             // ignore
             if (evt.target === this || !evt.target.name) {
@@ -147,10 +151,14 @@ export class FormBase extends Base {
 
             if (evt.target.type === "checkbox") {
                 this.data[evt.target.name] = evt.target.hasAttribute("checked");
+            } else {
+                this.data[evt.target.name] = evt.target.value;
             }
 
-            this.data[evt.target.name] = evt.target.value;
-            this.handleChange(evt);
+            debounceTimeout = setTimeout(() => {
+                clearTimeout(debounceTimeout);
+                this.handleChange(evt);
+            }, 10);
         };
 
         this.addEventListener("change", handler);
