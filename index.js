@@ -186,9 +186,12 @@ export class FormBase extends Base {
     /**
      * handleChange should be overwritten by the implementing class
      *
-     * It is intended to allow the implementing class to do what it wants
-     * with the event.
+     * By default this method swallows the change event from the form control and
+     * dispatches an event from this class context.
      * @param {Event} evt
      */
-    handleChange(evt) {}
+    handleChange(evt) {
+        this.popBubble(evt);
+        this.dispatchEvent(new Event("change"));
+    }
 }
