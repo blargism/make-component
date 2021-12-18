@@ -58,7 +58,6 @@ export class Base extends HTMLElement {
      * ```
      *
      * @param object component
-     * @returns {TemplateResult<1>}
      */
     template(component) {
         console.warn("There is not template defined.")
@@ -103,5 +102,19 @@ export class Base extends HTMLElement {
      */
     render() {
         if (this.___CAN_RENDER___) render(this.template(this), this);
+    }
+
+    /**
+     * A nice way to stop event bubbling
+     *
+     * @param {Event} evt a browser event that can bubble
+     * @param {boolean} preventDefault a flag that if set to true will run `evt.preventDefault()`
+     */
+    popBubble(evt, preventDefault) {
+        evt.stopPropagation();
+        evt.stopImmediatePropagation();
+        if (preventDefault) {
+            evt.preventDefault()
+        }
     }
 }
