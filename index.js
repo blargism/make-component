@@ -136,6 +136,7 @@ export class Base extends HTMLElement {
  *
  * Properties interest:
  * @param {object} data The data object to be updated on form changes, the setter triggers a render.
+ * @method handleChange(evt)
  */
 export class FormBase extends Base {
     constructor() {
@@ -189,7 +190,5 @@ export class FormBase extends Base {
      * with the event.
      * @param {Event} evt
      */
-    handleChange(evt) {
-        console.log("handleChange not implemented");
-    }
+    handleChange(evt) {}
 }
