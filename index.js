@@ -108,7 +108,7 @@ export class Base extends HTMLElement {
      * A nice way to stop event bubbling
      *
      * @param {Event} evt a browser event that can bubble
-     * @param {boolean} preventDefault a flag that if set to true will run `evt.preventDefault()`
+     * @param {boolean} [preventDefault] a flag that if set to true will run `evt.preventDefault()`
      */
     popBubble(evt, preventDefault) {
         evt.stopPropagation();
