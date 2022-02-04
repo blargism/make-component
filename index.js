@@ -101,7 +101,13 @@ export class Base extends HTMLElement {
      * connectedCallback.
      */
     render() {
-        if (this.___CAN_RENDER___) render(this.template(this), this);
+        if (this.___CAN_RENDER___) {
+            if (this.shadow) {
+                render(this.template(this), this.shadow);
+            } else {
+                render(this.template(this), this);
+            }
+        }
     }
 
     /**
