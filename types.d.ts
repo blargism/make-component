@@ -3,6 +3,7 @@ import {TemplateInstance} from "lit-html";
 declare const makewc: (tag_name: string, component_class: HTMLElement) => HTMLElement;
 
 declare class Base extends HTMLElement {
+    shadow: ShadowRoot;
     template(component: Base): TemplateInstance;
     pre(): Promise<void>;
     init(): Promise<void>;
